@@ -1,6 +1,6 @@
-import { useState } from 'react';
 import { NoteFormProps } from './NoteForm.types';
 import { Button } from '@/components/Button';
+import { useStickyState } from '@/shared/hook/useStickyState';
 
 const buttonCreateAddStyle = `py-3 px-15 my-1.5 rounded-xl text-white bg-black cursor-pointer hover:bg-gray-800 
  transition-colors duration-300 active:bg-gray-500`
@@ -10,8 +10,8 @@ const isValidNote = (title: string, content: string): boolean => {
 };
 
 export const NoteForm = ({ onCreate }: NoteFormProps) => {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [title, setTitle] = useStickyState('note-title-draft', '');
+  const [content, setContent] = useStickyState('note-content-draft', '');
 
   const handleSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
