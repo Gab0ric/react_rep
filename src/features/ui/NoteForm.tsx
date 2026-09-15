@@ -39,13 +39,7 @@ export const NoteForm = ({ onCreate }: NoteFormProps) => {
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
-      {/* <textarea
-        className='resize-none h-32.5 w-47.5 rounded-2xl p-4 bg-gray-100 overflow-hidden'
-        placeholder="Текст заметки..."
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-      /> */}
-
+   
       <AutoResizingTextarea
         ref={textareaRef}
         value={content}
