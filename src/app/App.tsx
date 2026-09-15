@@ -12,28 +12,27 @@ function App() {
     setNotes((prevNotes) => prevNotes.filter((note) => note.id !== id));
   };
   const handleChangeColor = (id: string) => {
-  const colors = [
-    "bg-[#f6e462]",
-    "bg-purple-300",
-    "bg-blue-300",
-    "bg-green-300",
-    "bg-amber-500"
-  ];
+    const colors = [
+      "bg-[#f6e462]",
+      "bg-purple-300",
+      "bg-blue-300",
+      "bg-green-300",
+      "bg-amber-500"
+    ];
 
-  const updatedNotes = notes.map((note) => {
-    if (note.id === id) {
-      const currentColor = note.color || "bg-[#f6e462]";
-      const currentIndex = colors.indexOf(currentColor);
-      const nextIndex = (currentIndex + 1) % colors.length;
-      const nextColor = colors[nextIndex];
-      return { ...note, color: nextColor };
-    }
-    return note;
-  });
+    const updatedNotes = notes.map((note) => {
+      if (note.id === id) {
+        const currentColor = note.color || "bg-[#f6e462]";
+        const currentIndex = colors.indexOf(currentColor);
+        const nextIndex = (currentIndex + 1) % colors.length;
+        const nextColor = colors[nextIndex];
+        return { ...note, color: nextColor };
+      }
+      return note;
+    });
 
-  setNotes(updatedNotes);
-};
-
+    setNotes(updatedNotes);
+  };
 
   const handleCreateNote = (info: CreateNoteDto) => {
     const newNote = createNote(info);
@@ -43,7 +42,7 @@ function App() {
 
   return (
     <>
-      <div className="flex flex-row h-screen w-full py-30 px-20 gap-4 items-start border-box ">
+      <div className="flex flex-row h-screen  w-full py-30 px-20 gap-4 items-start border-box ">
         <NoteActions
           isFormOpen={isFormOpen}
           onOpenForm={() => setIsFormOpen(true)}
