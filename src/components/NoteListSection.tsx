@@ -15,7 +15,7 @@ export const NoteList = ({ notes, onDeleteNote, onChangeColor}: NoteListProps) =
       ) : (
         notes.map((note) => (
           <div key={note.id} onContextMenu={(e) => handleContextMenu(e, note.id)}>
-            <h3 className={`font-bold overflow-x-scroll border-b-1 border-[#b9b4b4] scrollbar-none text-start w-47.5 px-2.5 rounded-t-2xl pt-2.5 pb-1.25  ${note.color ? note.color : 'bg-[#f6e462]'}`}>
+            <h3 className={`font-bold overflow-x-scroll border-b border-[#b9b4b4] scrollbar-none text-start w-47.5 px-2.5 rounded-t-2xl pt-2.5 pb-1.25  ${note.color ? note.color : 'bg-[#f6e462]'}`}>
               {note.title}
             </h3>
             <textarea

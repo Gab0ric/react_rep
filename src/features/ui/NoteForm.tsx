@@ -1,6 +1,8 @@
-import { useRef } from "react";
-import { NoteFormProps } from './NoteForm.types';
+import { useReducer } from "react";
+import { useRef, useEffect } from "react";
 import { Button } from '@/components/Button';
+import { NoteFormProps } from './NoteForm.types';
+import { noteReducer } from "@/components/noteReducer";
 import { useStickyState } from '@/shared/hook/useStickyState';
 import { AutoResizingTextarea, AutoResizingTextareaRef } from "@/components/AutoResizingTextarea";
 
@@ -13,8 +15,17 @@ const isValidNote = (title: string, content: string): boolean => {
 
 
 export const NoteForm = ({ onCreate }: NoteFormProps) => {
-  const [title, setTitle] = useStickyState('note-title-draft', '');
-  const [content, setContent] = useStickyState('note-content-draft', '');
+  // const [title, setTitle] = useStickyState('note-title-draft', '');
+  // const [content, setContent] = useStickyState('note-content-draft', '');
+  const [state, dispatch] = useReducer(noteReducer, { 
+    title: localStorage.getItem('note-title-draft') || '', 
+    content: localStorage.getItem('note-content-draft') || '' 
+  });
+  
+  useEffect(() => {
+    localStorage.setItem('note-title-draft', state.title);
+    localStorage.setItem('note-content-draft', state.content);
+  }, [state.title, state.content]);
 
   const textareaRef = useRef<AutoResizingTextareaRef>(null);
 
@@ -22,11 +33,14 @@ export const NoteForm = ({ onCreate }: NoteFormProps) => {
     e.preventDefault();
 
 
-    if (!isValidNote(title, content)) return;
+    if (!isValidNote(state.title, state.content)) return;
 
-    onCreate({ title, content });
-    setContent('');
-    setTitle('');
+    onCreate({ title: state.title, content: state.content });
+    dispatch({ type: 'RESET_FORM' })
+    localStorage.removeItem('note-title-draft');
+    localStorage.removeItem('note-content-draft');
+    // setContent('');
+    // setTitle('');
   };
 
   return (
@@ -36,14 +50,16 @@ export const NoteForm = ({ onCreate }: NoteFormProps) => {
         className='h-10 w-47.5 rounded-2xl p-4 bg-gray-100 my-1.5'
         type="text"
         placeholder="Заголовок заметки"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
+        value={state.title}
+        onChange={(e) => dispatch({ type: 'SET_TITLE', payload: e.target.value })}
+      // onChange={(e) => setTitle(e.target.value)}
       />
-   
+
       <AutoResizingTextarea
         ref={textareaRef}
-        value={content}
-        onChange={(e: React.SubmitEvent) => setContent(e.target.value)}
+        value={state.content}
+        onChange={(e: React.SubmitEvent) => dispatch({ type: 'SET_CONTENT', payload: e.target.value })}
+      // onChange={(e: React.SubmitEvent) => setContent(e.target.value)}
       />
 
       <Button
@@ -55,7 +71,7 @@ export const NoteForm = ({ onCreate }: NoteFormProps) => {
       <button
         type="button"
         onClick={() => {
-          setContent('');
+          dispatch({ type: 'RESET_FORM' })
           textareaRef.current?.resetAndFocus();
         }}
         className="py-3 px-15 mb-1.5 rounded-xl text-white bg-[rgba(109,16,123)] cursor-pointer hover:bg-[rgba(98,16,123)] 
