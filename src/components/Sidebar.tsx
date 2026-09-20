@@ -19,7 +19,7 @@ export const Sidebar =
 
     return (
       <SidebarContext.Provider value={{ notes, searchQuery, setSearchQuery, filterStatus, setFilterStatus }}>
-        <aside className="w-90  h-full bg-gray-50 rounded-3xl shadow-2xl p-[16px] flex flex-col gap-4">
+        <aside className="w-90  h-full bg-gray-50 rounded-3xl shadow-2xl p-4 flex flex-col gap-4">
           {children}
         </aside>
       </SidebarContext.Provider>
