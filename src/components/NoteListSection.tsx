@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ContextMenu } from "./ContextMenu";
 import { NoteListProps } from "./NoteListSectionTypes";
 
-export const NoteList = ({ notes, onDeleteNote, onChangeColor}: NoteListProps) => {
+export const NoteList = ({ notes, onDeleteNote, onChangeColor, onToggleStatus}: NoteListProps) => {
   const [contextMenu, setContextMenu] = useState<{ x: number, y: number, noteId: string } | null>(null);
   const handleContextMenu = (e: React.MouseEvent, noteId: string) => {
     e.preventDefault();
@@ -40,6 +40,10 @@ export const NoteList = ({ notes, onDeleteNote, onChangeColor}: NoteListProps) =
           onColorChange={() => {
             console.log("Меняем цвет заметке с ID:", contextMenu.noteId);
             onChangeColor(contextMenu.noteId);
+            setContextMenu(null);
+          }}
+          onToggleStatus={() => {
+            onToggleStatus(contextMenu.noteId);
             setContextMenu(null);
           }}
         />

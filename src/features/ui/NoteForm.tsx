@@ -3,7 +3,7 @@ import { useRef, useEffect } from "react";
 import { Button } from '@/components/Button';
 import { NoteFormProps } from './NoteForm.types';
 import { noteReducer } from "@/components/noteReducer";
-import { useStickyState } from '@/shared/hook/useStickyState';
+// import { useStickyState } from '@/shared/hook/useStickyState';
 import { AutoResizingTextarea, AutoResizingTextareaRef } from "@/components/AutoResizingTextarea";
 
 const buttonCreateAddStyle = `py-3 px-15 my-1.5 rounded-xl text-white bg-black cursor-pointer hover:bg-gray-800 

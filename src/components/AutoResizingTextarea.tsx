@@ -1,10 +1,11 @@
 import { useRef, useImperativeHandle } from "react";
 
-export interface AutoResizingTextareaRef  {
+export interface AutoResizingTextareaRef {
   resetAndFocus: () => void
 }
 
-export const AutoResizingTextarea = ({ ref, value, onChange }: { ref?: React.Ref<AutoResizingTextareaRef>, value?: string, onChange?: any }) => {
+export const AutoResizingTextarea = ({ ref, value, onChange }:
+  { ref?: React.Ref<AutoResizingTextareaRef>, value?: string, onChange?: any }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   useImperativeHandle(ref, () => {
     return {
@@ -19,7 +20,8 @@ export const AutoResizingTextarea = ({ ref, value, onChange }: { ref?: React.Ref
   }
   );
   const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    e.target.style.height = "auto";
+    // e.target.style.height = "auto";
+    e.target.style.height = "h-32.5, w-47.5";
     e.target.style.height = `${e.target.scrollHeight}px`;
     if (onChange) onChange(e);
   };

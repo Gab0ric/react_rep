@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Sidebar } from "@/components/Sidebar";
 import { Note } from "@/entities/note/model/types"
 import { NoteList } from "@/components/NoteListSection";
 import { createNote } from "@/shared/lib/utils/createNote"
@@ -34,25 +35,49 @@ function App() {
     setNotes(updatedNotes);
   };
 
+  const toggleNoteStatus = (id: string) => {
+    setNotes((prevNotes) =>
+      prevNotes.map(note => {
+        if (note.id === id) {
+          return {
+            ...note,
+            status: note.status === 'in progress'
+              ? 'completed'
+              : 'in progress'
+          };
+        }
+        return note;
+      })
+    );
+  };
+
   const handleCreateNote = (info: CreateNoteDto) => {
-    const newNote = createNote(info);
+    const newNote = createNote({ ...info, status: 'in progress' });
     setNotes([newNote, ...notes]);
     setIsFormOpen(false);
   }
 
   return (
     <>
-      <div className="flex flex-row h-screen  w-full py-30 px-20 gap-4 items-start border-box ">
+      <div className="flex flex-row h-screen  w-full py-25 px-10 gap-4 items-start border-box ">
+        <Sidebar notes={notes}>
+          <Sidebar.FilterGroup />
+          <Sidebar.List />
+        </Sidebar>
+
         <NoteActions
           isFormOpen={isFormOpen}
           onOpenForm={() => setIsFormOpen(true)}
           onCreateNote={handleCreateNote}
           onClearNotes={() => setNotes([])}
         />
+
         <NoteList
           notes={notes}
           onDeleteNote={handleDeleteNote}
-          onChangeColor={handleChangeColor} />
+          onChangeColor={handleChangeColor}
+          onToggleStatus={toggleNoteStatus}
+        />
       </div>
     </>
   )
